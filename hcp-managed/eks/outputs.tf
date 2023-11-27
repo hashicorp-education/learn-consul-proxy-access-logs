@@ -6,11 +6,22 @@ output "region" {
   value = var.vpc_region
 }
 
-output "vpc" {
-  value = {
-    vpc_id         = module.vpc.vpc_id
-    vpc_cidr_block = module.vpc.vpc_cidr_block
-  }
+
+################################################################################
+# HCP Consul
+################################################################################
+
+output "consul_root_token" {
+  value     = hcp_consul_cluster_root_token.token.secret_id
+  sensitive = true
+}
+
+output "consul_url" {
+  value = hcp_consul_cluster.main.public_endpoint ? (
+    hcp_consul_cluster.main.consul_public_endpoint_url
+    ) : (
+    hcp_consul_cluster.main.consul_private_endpoint_url
+  )
 }
 
 ################################################################################

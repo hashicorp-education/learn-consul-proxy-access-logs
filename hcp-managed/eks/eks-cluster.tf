@@ -1,39 +1,3 @@
-data "aws_availability_zones" "available" {
-  state = "available"
-
-  filter {
-    name   = "opt-in-status"
-    values = ["opt-in-not-required"]
-  }
-}
-
-module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
-  version = "3.19.0"
-
-  name = local.name
-
-  cidr = "10.0.0.0/16"
-  azs  = slice(data.aws_availability_zones.available.names, 0, 3)
-
-  private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-  public_subnets  = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
-
-  enable_nat_gateway   = true
-  single_nat_gateway   = true
-  enable_dns_hostnames = true
-
-  public_subnet_tags = {
-    "kubernetes.io/cluster/${local.name}" = "shared"
-    "kubernetes.io/role/elb"              = 1
-  }
-
-  private_subnet_tags = {
-    "kubernetes.io/cluster/${local.name}" = "shared"
-    "kubernetes.io/role/internal-elb"     = 1
-  }
-}
-
 data "aws_eks_cluster" "cluster" {
   name = module.eks.cluster_name
 }
@@ -67,7 +31,7 @@ module "eks" {
     consul = {
       name = "consul"
 
-      instance_types = ["t3a.medium"]
+      instance_types = ["c5d.large"]
 
       min_size     = 1
       max_size     = 5
@@ -103,7 +67,7 @@ module "eks" {
       from_port   = 0
       to_port     = 0
       type        = "ingress"
-      cidr_blocks = ["10.0.0.0/16"]
+      cidr_blocks      = ["10.0.0.0/16"]
     }
     egress_all = {
       description      = "Node all egress"
@@ -115,14 +79,4 @@ module "eks" {
       ipv6_cidr_blocks = ["::/0"]
     }
   }
-}
-
-# Uninstalls consul resources (API Gateway controller, Consul-UI, and AWS ELB, and removes associated AWS resources)
-# on terraform destroy
-resource "null_resource" "kubernetes_consul_resources" {
-  provisioner "local-exec" {
-    when    = destroy
-    command = "kubectl delete svc/consul-ui --namespace consul && kubectl delete svc/api-gateway --namespace consul"
-  }
-  depends_on = [module.eks]
 }
