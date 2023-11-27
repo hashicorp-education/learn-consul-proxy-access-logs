@@ -18,8 +18,8 @@ export CONSUL_HTTP_SSL_VERIFY=false
 # Notice that Consul services exist
 consul catalog services
 
-# Upgrade Consul to enable metrics
-consul-k8s upgrade -config-file=helm/consul-v2.yaml
+# Update proxy defaults to enable proxy access logs
+kubectl apply --filename config/proxy-defaults.yaml
 
 # Redeploy HashiCups with updated proxies
 kubectl rollout restart deployment --namespace default
