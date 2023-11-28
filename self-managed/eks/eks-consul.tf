@@ -15,7 +15,9 @@ resource "helm_release" "consul" {
   wait       = false
 
   values = [
-    templatefile("${path.module}/helm/consul-v1.yaml", {})
+    templatefile("${path.module}/helm/consul-v1.yaml",{
+      consul_version = var.consul_version
+    })
   ]
 
   depends_on = [module.eks,

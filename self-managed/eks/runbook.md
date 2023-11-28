@@ -33,4 +33,4 @@ export GRAFANA_URL=http://$(kubectl get svc/grafana --namespace observability -o
 echo $GRAFANA_URL
 
 # Check out Consul (optional)
-echo $CONSUL_HTTP_ADDR && export $CONSUL_HTTP_TOKEN
+echo $CONSUL_HTTP_ADDR && echo $CONSUL_HTTP_TOKEN

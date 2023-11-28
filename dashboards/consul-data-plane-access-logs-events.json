@@ -669,8 +669,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Data Plane Logs",
-  "uid": "data-plane-logs",
+  "title": "Access Logs: Events",
+  "uid": "access-logs-events",
   "version": 1,
   "weekStart": ""
 }

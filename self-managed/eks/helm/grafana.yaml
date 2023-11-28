@@ -77,5 +77,7 @@ dashboardProviders:
         path: /var/lib/grafana/dashboards/default
 dashboards:
   default:
-    data-plane-access-logs:
-      url: https://raw.githubusercontent.com/hashicorp-education/learn-consul-proxy-access-logs/main/dashboards/consul-data-plane-access-logs.json
+    data-plane-access-logs-events:
+      url: https://raw.githubusercontent.com/hashicorp-education/learn-consul-proxy-access-logs/main/dashboards/consul-data-plane-access-logs-events.json
+    data-plane-access-logs-errors:
+      url: https://raw.githubusercontent.com/hashicorp-education/learn-consul-proxy-access-logs/main/dashboards/consul-data-plane-access-logs-errors.json
