@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 4,
+  "id": 3,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -97,13 +97,13 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "sum(count_over_time(({app=\"$app\", namespace=~\"$namespace\"})[$__interval]))",
+          "expr": "sum(count_over_time(({container=\"consul-dataplane\",namespace=~\"$namespace\"})[$__interval]))",
           "hide": false,
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Total  Count of logs",
+      "title": "Total count of logs in \"$namespace\" namespace",
       "type": "stat"
     },
     {
@@ -111,7 +111,7 @@
         "type": "loki",
         "uid": "P8E80F9AEF21F6940"
       },
-      "description": "Total Count: of $searchable_pattern in the specified time range",
+      "description": "Total Count of $searchable_pattern in the specified time range",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -181,232 +181,14 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "sum(count_over_time(({app=\"$app\", namespace=~\"$namespace\"} |~ \"(?i)$searchable_pattern\")[$__interval]))",
+          "expr": "sum(count_over_time(({container=\"consul-dataplane\",namespace=~\"$namespace\"} |~ \"(?i)$searchable_pattern\")[$__interval]))",
           "hide": false,
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Total Count: of $searchable_pattern",
+      "title": "Total count of logs containing \"$searchable_pattern\" in \"$namespace\" namespace",
       "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "P8E80F9AEF21F6940"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            }
-          },
-          "mappings": []
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 7,
-        "x": 0,
-        "y": 5
-      },
-      "id": 12,
-      "links": [],
-      "maxDataPoints": 100,
-      "options": {
-        "legend": {
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true,
-          "values": [
-            "value"
-          ]
-        },
-        "pieType": "pie",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "7.0.4",
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "P8E80F9AEF21F6940"
-          },
-          "editorMode": "code",
-          "expr": "sum(count_over_time(({app=~\"$app\", namespace=~\"$namespace\"})[$__interval])) by (stream)",
-          "hide": false,
-          "legendFormat": "{{stream}}",
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "Total count of stderr / stdout pie",
-      "type": "piechart"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "P8E80F9AEF21F6940"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            }
-          },
-          "mappings": []
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 6,
-        "x": 7,
-        "y": 5
-      },
-      "id": 13,
-      "interval": "1m",
-      "links": [],
-      "maxDataPoints": "",
-      "options": {
-        "legend": {
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "pieType": "pie",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "6.4.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "P8E80F9AEF21F6940"
-          },
-          "editorMode": "code",
-          "expr": "sum(count_over_time(({app=\"$app\", namespace=~\"$namespace\"} |~ \"(?i)$searchable_pattern\")[$__interval])) by (app)",
-          "legendFormat": "{{pod}}",
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "Matched word: \"$searchable_pattern\" donut",
-      "type": "piechart"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "P8E80F9AEF21F6940"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [
-            {
-              "options": {
-                "match": "null",
-                "result": {
-                  "color": "#299c46",
-                  "text": "0"
-                }
-              },
-              "type": "special"
-            }
-          ],
-          "max": 100,
-          "min": 0,
-          "noValue": "0",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#299c46",
-                "value": null
-              },
-              {
-                "color": "rgba(237, 129, 40, 0.89)",
-                "value": 10
-              },
-              {
-                "color": "#C4162A",
-                "value": 50
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 5,
-        "x": 13,
-        "y": 5
-      },
-      "id": 14,
-      "links": [],
-      "maxDataPoints": 100,
-      "options": {
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": false
-      },
-      "pluginVersion": "10.1.5",
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "P8E80F9AEF21F6940"
-          },
-          "editorMode": "code",
-          "expr": "sum(count_over_time(({app=\"$app\", namespace=~\"$namespace\"} |~ \"(?i)$searchable_pattern\")[$__interval])) * 100 / sum(count_over_time(({app=\"$app\", namespace=~\"$namespace\"})[$__interval]))",
-          "hide": false,
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "\"$searchable_pattern\" Percentage for specified time",
-      "type": "gauge"
     },
     {
       "datasource": {
@@ -424,8 +206,8 @@
             "axisLabel": "Count",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "drawStyle": "bars",
-            "fillOpacity": 100,
+            "drawStyle": "line",
+            "fillOpacity": 15,
             "gradientMode": "opacity",
             "hideFrom": {
               "legend": false,
@@ -434,7 +216,7 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
-            "lineWidth": 3,
+            "lineWidth": 1,
             "pointSize": 1,
             "scaleDistribution": {
               "type": "linear"
@@ -473,7 +255,7 @@
         "h": 6,
         "w": 9,
         "x": 0,
-        "y": 12
+        "y": 5
       },
       "id": 15,
       "interval": "1m",
@@ -481,11 +263,9 @@
       "maxDataPoints": "",
       "options": {
         "legend": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": [],
           "displayMode": "table",
-          "placement": "bottom",
+          "placement": "right",
           "showLegend": true
         },
         "tooltip": {
@@ -501,13 +281,13 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "sum(count_over_time(({app=\"$app\", namespace=~\"$namespace\"} |~ \"(?i)$searchable_pattern\")[$__interval])) by (app)",
+          "expr": "sum(count_over_time(({container=\"consul-dataplane\", namespace=~\"$namespace\"} |~ \"(?i)$searchable_pattern\")[$__interval])) by (app)",
           "legendFormat": "{{pod}}",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Matched word: \"$searchable_pattern\" historical",
+      "title": "Total count of logs containing \"$searchable_pattern\" count by app",
       "type": "timeseries"
     },
     {
@@ -527,7 +307,7 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 100,
+            "fillOpacity": 15,
             "gradientMode": "opacity",
             "hideFrom": {
               "legend": false,
@@ -536,10 +316,13 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
             "lineWidth": 1,
             "pointSize": 1,
             "scaleDistribution": {
-              "log": 10,
+              "log": 2,
               "type": "log"
             },
             "showPoints": "never",
@@ -573,9 +356,9 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 8,
+        "w": 9,
         "x": 9,
-        "y": 12
+        "y": 5
       },
       "id": 16,
       "links": [],
@@ -586,7 +369,7 @@
             "lastNotNull"
           ],
           "displayMode": "table",
-          "placement": "bottom",
+          "placement": "right",
           "showLegend": true
         },
         "tooltip": {
@@ -602,14 +385,14 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "sum(rate(({app=\"$app\", namespace=~\"$namespace\"} |~ \"(?i)$searchable_pattern\")[30s])) by (app)",
+          "expr": "sum(rate(({container=\"consul-dataplane\",namespace=~\"$namespace\"} |~ \"(?i)$searchable_pattern\")[30s])) by (app)",
           "hide": false,
           "legendFormat": "{{pod}}",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "\"$searchable_pattern\" rate per app",
+      "title": "Rate of logs containing \"$searchable_pattern\" per app",
       "type": "timeseries"
     },
     {
@@ -712,21 +495,19 @@
         ]
       },
       "gridPos": {
-        "h": 4,
-        "w": 18,
+        "h": 6,
+        "w": 9,
         "x": 0,
-        "y": 18
+        "y": 11
       },
       "id": 17,
       "links": [],
       "maxDataPoints": 100,
       "options": {
         "legend": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": [],
           "displayMode": "table",
-          "placement": "bottom",
+          "placement": "right",
           "showLegend": true
         },
         "tooltip": {
@@ -742,15 +523,97 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "sum(count_over_time(({app=\"$app\", namespace=\"$namespace\"})[$__interval])) by (stream)",
+          "expr": "sum(count_over_time(({container=\"consul-dataplane\", namespace=\"$namespace\"})[$__interval])) by (stream)",
           "hide": false,
           "legendFormat": "{{stream}}",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Count of stderr / stdout historical",
+      "title": "Total count of stderr / stdout in \"$namespace\" namespace",
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "#299c46",
+                  "text": "0"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "max": 100,
+          "min": 0,
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 9,
+        "x": 9,
+        "y": 11
+      },
+      "id": 14,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.1.5",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "code",
+          "expr": "sum(count_over_time(({container=\"consul-dataplane\",namespace=~\"$namespace\"} |~ \"(?i)$searchable_pattern\")[$__interval])) * 100 / sum(count_over_time(({ container=\"consul-dataplane\", namespace=~\"$namespace\"})[$__interval]))",
+          "hide": false,
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Percentage of logs containing \"$searchable_pattern\" in \"$namespace\" namespace",
+      "type": "stat"
     },
     {
       "datasource": {
@@ -777,7 +640,7 @@
         "h": 6,
         "w": 6,
         "x": 0,
-        "y": 22
+        "y": 17
       },
       "id": 3,
       "options": {
@@ -811,15 +674,15 @@
             "type": "loki",
             "uid": "P8E80F9AEF21F6940"
           },
-          "editorMode": "builder",
-          "expr": "sum by(method) (count_over_time({container=\"consul-dataplane\", app=\"$app\", namespace=\"$namespace\"} | json | __error__=`` [$__range]))",
+          "editorMode": "code",
+          "expr": "sum by(method) (count_over_time({container=\"consul-dataplane\", namespace=\"$namespace\"} | json | __error__=`` [$__range]))",
           "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
           "legendFormat": "{{method}}",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "HTTP Method Distribution",
+      "title": "HTTP Method Distribution in \"$namespace\" namespace",
       "type": "piechart"
     },
     {
@@ -847,7 +710,7 @@
         "h": 6,
         "w": 6,
         "x": 6,
-        "y": 22
+        "y": 17
       },
       "id": 4,
       "options": {
@@ -882,14 +745,14 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "sum by(response_code) (count_over_time({container=\"consul-dataplane\", app=\"$app\", namespace=\"$namespace\"} | json | __error__=`` [$__range]))",
+          "expr": "sum by(response_code) (count_over_time({container=\"consul-dataplane\", namespace=\"$namespace\"} | json | __error__=`` [$__range]))",
           "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
           "legendFormat": "{{response_code}}",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Response Code Distribution",
+      "title": "Response Code Distribution in \"$namespace\" namespace",
       "type": "piechart"
     },
     {
@@ -917,7 +780,7 @@
         "h": 6,
         "w": 8,
         "x": 12,
-        "y": 22
+        "y": 17
       },
       "id": 5,
       "options": {
@@ -952,14 +815,14 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "sum by(user_agent) (count_over_time({container=\"consul-dataplane\", app=\"$app\", namespace=\"$namespace\"} | json | __error__=`` [$__range]))",
+          "expr": "sum by(user_agent) (count_over_time({container=\"consul-dataplane\", namespace=\"$namespace\"} | json | __error__=`` [$__range]))",
           "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
           "legendFormat": "{{user_agent}}",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "User Agent Distribution",
+      "title": "User Agent Distribution in \"$namespace\" namespace",
       "type": "piechart"
     },
     {
@@ -1027,7 +890,7 @@
         "h": 7,
         "w": 6,
         "x": 0,
-        "y": 28
+        "y": 23
       },
       "id": 6,
       "options": {
@@ -1050,14 +913,14 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "sum by(method) (count_over_time({container=\"consul-dataplane\", app=\"$app\", namespace=\"$namespace\"} | json | __error__=`` [$__range]))",
+          "expr": "sum by(method) (count_over_time({container=\"consul-dataplane\", namespace=\"$namespace\"} | json | __error__=`` [$__range]))",
           "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
           "legendFormat": "{{method}}",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "HTTP Method Distribution",
+      "title": "HTTP Method Distribution in \"$namespace\" namespace",
       "type": "timeseries"
     },
     {
@@ -1125,7 +988,7 @@
         "h": 7,
         "w": 6,
         "x": 6,
-        "y": 28
+        "y": 23
       },
       "id": 7,
       "options": {
@@ -1148,14 +1011,14 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "builder",
-          "expr": "sum by(response_code) (count_over_time({container=\"consul-dataplane\", app=\"$app\", namespace=\"$namespace\"} | json | __error__=`` [$__range]))",
+          "expr": "sum by(response_code) (count_over_time({container=\"consul-dataplane\", namespace=\"$namespace\"} | json | __error__=`` [$__range]))",
           "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
           "legendFormat": "{{response_code}}",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Response Code Distribution",
+      "title": "Response Code Distribution in \"$namespace\" namespace",
       "type": "timeseries"
     },
     {
@@ -1223,7 +1086,7 @@
         "h": 7,
         "w": 8,
         "x": 12,
-        "y": 28
+        "y": 23
       },
       "id": 8,
       "options": {
@@ -1246,14 +1109,14 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "builder",
-          "expr": "sum by(user_agent) (count_over_time({container=\"consul-dataplane\", app=\"$app\", namespace=\"$namespace\"} | json | __error__=`` [$__range]))",
+          "expr": "sum by(user_agent) (count_over_time({container=\"consul-dataplane\", namespace=\"$namespace\"} | json | __error__=`` [$__range]))",
           "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
           "legendFormat": "{{user_agent}}",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Response Code Distribution",
+      "title": "Response Code Distribution in \"$namespace\" namespace",
       "type": "timeseries"
     },
     {
@@ -1265,7 +1128,7 @@
         "h": 7,
         "w": 20,
         "x": 0,
-        "y": 35
+        "y": 30
       },
       "id": 1,
       "options": {
@@ -1285,13 +1148,13 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "{container=\"consul-dataplane\", app=\"$app\", namespace=\"$namespace\"} |= `` | json |= `\"response_code\":` |= `$raw_log_filter` ",
+          "expr": "{container=\"consul-dataplane\", namespace=\"$namespace\"} |= `` | json |= `\"response_code\":` |= `$searchable_pattern` ",
           "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Raw Access Logs",
+      "title": "Raw proxy access logs in \"$namespace\" namespace",
       "type": "logs"
     }
   ],
@@ -1329,11 +1192,17 @@
           "text": "nginx",
           "value": "nginx"
         },
-        "hide": 0,
-        "includeAll": false,
+        "description": "",
+        "hide": 2,
+        "includeAll": true,
         "multi": false,
         "name": "app",
         "options": [
+          {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
           {
             "selected": true,
             "text": "nginx",
@@ -1378,28 +1247,8 @@
       {
         "current": {
           "selected": false,
-          "text": "",
-          "value": ""
-        },
-        "hide": 0,
-        "label": "Log Filter: Response Code",
-        "name": "raw_log_filter",
-        "options": [
-          {
-            "selected": false,
-            "text": "503",
-            "value": "503"
-          }
-        ],
-        "query": "",
-        "skipUrlSync": false,
-        "type": "textbox"
-      },
-      {
-        "current": {
-          "selected": false,
-          "text": "502",
-          "value": "502"
+          "text": "504",
+          "value": "504"
         },
         "hide": 0,
         "label": "Search (case insensitive)",
@@ -1407,11 +1256,11 @@
         "options": [
           {
             "selected": true,
-            "text": "502",
-            "value": "502"
+            "text": "504",
+            "value": "504"
           }
         ],
-        "query": "502",
+        "query": "504",
         "skipUrlSync": false,
         "type": "textbox"
       }
