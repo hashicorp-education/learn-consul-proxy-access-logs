@@ -49,15 +49,15 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgb(31, 255, 7)",
+                "color": "green",
                 "value": null
               },
               {
-                "color": "rgb(31, 255, 7)",
+                "color": "green",
                 "value": 10
               },
               {
-                "color": "rgb(31, 255, 7)",
+                "color": "green",
                 "value": 50
               }
             ]
@@ -66,18 +66,12 @@
         },
         "overrides": []
       },
-      "gridPos": {
-        "h": 5,
-        "w": 6,
-        "x": 0,
-        "y": 0
-      },
       "id": 9,
       "links": [],
       "maxDataPoints": 1,
       "options": {
         "colorMode": "value",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
@@ -133,15 +127,15 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgb(222, 15, 43)",
+                "color": "red",
                 "value": null
               },
               {
-                "color": "rgb(222, 15, 43)",
+                "color": "red",
                 "value": 10
               },
               {
-                "color": "rgb(222, 15, 43)",
+                "color": "red",
                 "value": 50
               }
             ]
@@ -151,7 +145,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 5,
+        "h": 3,
         "w": 6,
         "x": 6,
         "y": 0
@@ -161,7 +155,7 @@
       "maxDataPoints": 1,
       "options": {
         "colorMode": "value",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
@@ -233,7 +227,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 5,
+        "h": 3,
         "w": 6,
         "x": 12,
         "y": 0
@@ -243,7 +237,7 @@
       "maxDataPoints": 1,
       "options": {
         "colorMode": "value",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
@@ -302,7 +296,7 @@
         "h": 5,
         "w": 9,
         "x": 0,
-        "y": 5
+        "y": 3
       },
       "id": 21,
       "maxDataPoints": 1,
@@ -369,7 +363,7 @@
         "h": 5,
         "w": 9,
         "x": 9,
-        "y": 5
+        "y": 3
       },
       "id": 23,
       "maxDataPoints": 1,
@@ -434,7 +428,7 @@
         "h": 6,
         "w": 6,
         "x": 0,
-        "y": 10
+        "y": 8
       },
       "id": 28,
       "links": [],
@@ -506,12 +500,12 @@
         "h": 6,
         "w": 6,
         "x": 6,
-        "y": 10
+        "y": 8
       },
       "id": 15,
       "interval": "1m",
       "links": [],
-      "maxDataPoints": 100,
+      "maxDataPoints": 1,
       "options": {
         "displayLabels": [
           "value"
@@ -548,7 +542,7 @@
           "refId": "A"
         }
       ],
-      "title": "Total logs containing \"$searchable_pattern\" count by app over [$__interval]",
+      "title": "Total logs containing \"$searchable_pattern\" by app over [$__interval]",
       "type": "piechart"
     },
     {
@@ -619,7 +613,7 @@
         "h": 6,
         "w": 6,
         "x": 12,
-        "y": 10
+        "y": 8
       },
       "id": 16,
       "links": [],
@@ -665,7 +659,7 @@
         "h": 7,
         "w": 18,
         "x": 0,
-        "y": 16
+        "y": 14
       },
       "id": 1,
       "maxDataPoints": 1,
@@ -720,7 +714,7 @@
         "h": 8,
         "w": 6,
         "x": 0,
-        "y": 23
+        "y": 21
       },
       "id": 19,
       "maxDataPoints": 1,
@@ -762,7 +756,7 @@
           "refId": "A"
         }
       ],
-      "title": "Path distribution in \"$namespace\" namespace over [$__interval]",
+      "title": "Path distribution in \"$namespace\"",
       "type": "piechart"
     },
     {
@@ -790,7 +784,7 @@
         "h": 8,
         "w": 6,
         "x": 6,
-        "y": 23
+        "y": 21
       },
       "id": 4,
       "options": {
@@ -829,7 +823,7 @@
           "refId": "A"
         }
       ],
-      "title": "Response Code Distribution in \"$namespace\" namespace",
+      "title": "Response code distribution",
       "type": "piechart"
     },
     {
@@ -890,7 +884,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 23
+        "y": 21
       },
       "id": 27,
       "maxDataPoints": 1,
@@ -959,7 +953,7 @@
         "h": 8,
         "w": 6,
         "x": 0,
-        "y": 31
+        "y": 29
       },
       "id": 3,
       "options": {
@@ -998,7 +992,7 @@
           "refId": "A"
         }
       ],
-      "title": "HTTP method in \"$namespace\" namespace",
+      "title": "HTTP method distribution",
       "type": "piechart"
     },
     {
@@ -1026,7 +1020,7 @@
         "h": 8,
         "w": 6,
         "x": 6,
-        "y": 31
+        "y": 29
       },
       "id": 5,
       "maxDataPoints": 1,
@@ -1068,7 +1062,7 @@
           "refId": "A"
         }
       ],
-      "title": "User agents in \"$namespace\" namespace",
+      "title": "User agent distribution",
       "type": "piechart"
     },
     {
@@ -1129,7 +1123,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 31
+        "y": 29
       },
       "id": 17,
       "links": [],
@@ -1171,7 +1165,7 @@
           "refId": "A"
         }
       ],
-      "title": "Log stream sources in \"$namespace\" namespace",
+      "title": "Log stream source distribution",
       "type": "piechart"
     }
   ],
@@ -1206,12 +1200,8 @@
       {
         "current": {
           "selected": true,
-          "text": [
-            "All"
-          ],
-          "value": [
-            "$__all"
-          ]
+          "text": "nginx",
+          "value": "nginx"
         },
         "description": "",
         "hide": 0,
@@ -1220,12 +1210,12 @@
         "name": "app",
         "options": [
           {
-            "selected": true,
+            "selected": false,
             "text": "All",
             "value": "$__all"
           },
           {
-            "selected": false,
+            "selected": true,
             "text": "nginx",
             "value": "nginx"
           },
@@ -1268,8 +1258,8 @@
       {
         "current": {
           "selected": false,
-          "text": "POST",
-          "value": "POST"
+          "text": "",
+          "value": ""
         },
         "hide": 0,
         "label": "Search (case insensitive)",
@@ -1277,18 +1267,18 @@
         "options": [
           {
             "selected": true,
-            "text": "POST",
-            "value": "POST"
+            "text": "",
+            "value": ""
           }
         ],
-        "query": "POST",
+        "query": "",
         "skipUrlSync": false,
         "type": "textbox"
       }
     ]
   },
   "time": {
-    "from": "now-1m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
