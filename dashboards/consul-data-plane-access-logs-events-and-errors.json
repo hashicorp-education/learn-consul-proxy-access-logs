@@ -18,7 +18,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 6,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -66,13 +65,7 @@
         },
         "overrides": []
       },
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 0,
-        "y": 0
-      },
-      "id": 32,
+      "id": 9,
       "links": [],
       "maxDataPoints": 1,
       "options": {
@@ -151,12 +144,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 3,
         "w": 6,
         "x": 6,
         "y": 0
       },
-      "id": 31,
+      "id": 10,
       "links": [],
       "maxDataPoints": 1,
       "options": {
@@ -180,8 +173,8 @@
             "type": "loki",
             "uid": "P8E80F9AEF21F6940"
           },
-          "editorMode": "code",
-          "expr": "sum(count_over_time(({container=\"consul-dataplane\",namespace=~\"$namespace\"} |~ \"(?i)$searchable_pattern\")[$__interval]))",
+          "editorMode": "builder",
+          "expr": "sum(count_over_time({container=\"consul-dataplane\", namespace=~\"$namespace\"} |~ `(?i)(?i)$searchable_pattern` [$__interval]))",
           "hide": false,
           "queryType": "range",
           "refId": "A"
@@ -233,12 +226,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 3,
         "w": 6,
         "x": 12,
         "y": 0
       },
-      "id": 30,
+      "id": 14,
       "links": [],
       "maxDataPoints": 1,
       "options": {
@@ -262,8 +255,8 @@
             "type": "loki",
             "uid": "P8E80F9AEF21F6940"
           },
-          "editorMode": "code",
-          "expr": "sum(count_over_time(({container=\"consul-dataplane\",namespace=~\"$namespace\"} |~ \"(?i)$searchable_pattern\")[$__interval])) * 100 / sum(count_over_time(({ container=\"consul-dataplane\", namespace=~\"$namespace\"})[$__interval]))",
+          "editorMode": "builder",
+          "expr": "(sum(count_over_time({container=\"consul-dataplane\", namespace=~\"$namespace\"} |~ `(?i)(?i)$searchable_pattern` [$__interval])) * 100) / sum(count_over_time({container=\"consul-dataplane\", namespace=~\"$namespace\"} [$__interval]))",
           "hide": false,
           "queryType": "range",
           "refId": "A"
@@ -271,144 +264,6 @@
       ],
       "title": "Percentage of logs containing \"$searchable_pattern\" over  [$__interval]",
       "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "P8E80F9AEF21F6940"
-      },
-      "description": "duration: The total duration in milliseconds of the request from the start time to the last byte out",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "orange",
-                "value": 30
-              },
-              {
-                "color": "red",
-                "value": 40
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 9,
-        "x": 0,
-        "y": 4
-      },
-      "id": 28,
-      "maxDataPoints": 1,
-      "options": {
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
-      },
-      "pluginVersion": "10.1.5",
-      "targets": [
-        {
-          "datasource": {
-            "uid": "$datasource"
-          },
-          "editorMode": "builder",
-          "expr": "quantile_over_time(0.95, {namespace=\"$namespace\", container=\"consul-dataplane\"} | json | unwrap duration | __error__=`` [$__interval]) by (app)",
-          "hide": false,
-          "legendFormat": "{{app}}",
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "50th percentile of duration over [$__interval]",
-      "type": "gauge"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "P8E80F9AEF21F6940"
-      },
-      "description": "duration: The total duration in milliseconds of the request from the start time to the last byte out",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "orange",
-                "value": 30
-              },
-              {
-                "color": "red",
-                "value": 40
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 9,
-        "x": 9,
-        "y": 4
-      },
-      "id": 29,
-      "maxDataPoints": 1,
-      "options": {
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
-      },
-      "pluginVersion": "10.1.5",
-      "targets": [
-        {
-          "datasource": {
-            "uid": "$datasource"
-          },
-          "editorMode": "code",
-          "expr": "quantile_over_time(0.99, {namespace=\"$namespace\", container=\"consul-dataplane\"} | json | unwrap duration | __error__=`` [$__interval]) by (app)",
-          "hide": false,
-          "legendFormat": "{{app}}",
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "99th percentile of duration over [$__interval]",
-      "type": "gauge"
     },
     {
       "datasource": {
@@ -427,10 +282,7 @@
               "viz": false
             }
           },
-          "decimals": 0,
-          "links": [],
-          "mappings": [],
-          "unit": "short"
+          "mappings": []
         },
         "overrides": []
       },
@@ -438,14 +290,13 @@
         "h": 6,
         "w": 6,
         "x": 0,
-        "y": 13
+        "y": 3
       },
-      "id": 34,
-      "links": [],
+      "id": 4,
       "maxDataPoints": 1,
       "options": {
         "displayLabels": [
-          "value"
+          "percent"
         ],
         "legend": {
           "displayMode": "list",
@@ -465,21 +316,21 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "9.3.6",
       "targets": [
         {
           "datasource": {
             "type": "loki",
             "uid": "P8E80F9AEF21F6940"
           },
-          "editorMode": "builder",
-          "expr": "sum by(app) (count_over_time({container=\"consul-dataplane\", namespace=~\"$namespace\"} [$__interval]))",
-          "legendFormat": "{{pod}}",
+          "editorMode": "code",
+          "expr": "sum by(response_code) (count_over_time({container=\"consul-dataplane\", namespace=\"$namespace\"} | json | response_code != `0` | __error__=`` [$__range]))",
+          "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
+          "legendFormat": "{{response_code}}",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Total logs by app over [$__interval]",
+      "title": "Response code distribution",
       "type": "piechart"
     },
     {
@@ -510,9 +361,9 @@
         "h": 6,
         "w": 6,
         "x": 6,
-        "y": 13
+        "y": 3
       },
-      "id": 35,
+      "id": 15,
       "interval": "1m",
       "links": [],
       "maxDataPoints": 1,
@@ -545,14 +396,14 @@
             "type": "loki",
             "uid": "P8E80F9AEF21F6940"
           },
-          "editorMode": "code",
-          "expr": "sum(count_over_time(({container=\"consul-dataplane\", namespace=~\"$namespace\"} |~ \"(?i)$searchable_pattern\")[$__interval])) by (app)",
+          "editorMode": "builder",
+          "expr": "sum by(app) (count_over_time({container=\"consul-dataplane\", namespace=~\"$namespace\"} |~ `(?i)(?i)$searchable_pattern` [$__interval]))",
           "legendFormat": "{{pod}}",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Total logs containing \"$searchable_pattern\" by app over [$__interval]",
+      "title": "Total logs containing \"$searchable_pattern\" by app",
       "type": "piechart"
     },
     {
@@ -623,7 +474,7 @@
         "h": 6,
         "w": 6,
         "x": 12,
-        "y": 13
+        "y": 3
       },
       "id": 16,
       "links": [],
@@ -649,8 +500,8 @@
             "type": "loki",
             "uid": "P8E80F9AEF21F6940"
           },
-          "editorMode": "code",
-          "expr": "sum(rate(({container=\"consul-dataplane\",namespace=~\"$namespace\"} |~ \"(?i)$searchable_pattern\")[30s])) by (app)",
+          "editorMode": "builder",
+          "expr": "sum by(app) (rate({container=\"consul-dataplane\", namespace=~\"$namespace\"} |~ `(?i)(?i)$searchable_pattern` [$__range]))",
           "hide": false,
           "legendFormat": "{{pod}}",
           "queryType": "range",
@@ -659,143 +510,6 @@
       ],
       "title": "Rate of logs containing \"$searchable_pattern\" per app",
       "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "P8E80F9AEF21F6940"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            }
-          },
-          "mappings": []
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 6,
-        "x": 0,
-        "y": 19
-      },
-      "id": 19,
-      "maxDataPoints": 1,
-      "options": {
-        "displayLabels": [
-          "percent"
-        ],
-        "legend": {
-          "displayMode": "list",
-          "placement": "right",
-          "showLegend": true,
-          "values": []
-        },
-        "pieType": "pie",
-        "reduceOptions": {
-          "calcs": [
-            "sum"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.0.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "P8E80F9AEF21F6940"
-          },
-          "editorMode": "code",
-          "expr": "sum by(path) (count_over_time({container=\"consul-dataplane\", namespace=\"$namespace\"} !~ `.ico|.svg|.css|.png|.txt|.js|.xml` | json | path != `` | __error__=`` [$__range]))",
-          "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
-          "legendFormat": "{{user_agent}}",
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "Path distribution in \"$namespace\" namespace over [$__interval]",
-      "type": "piechart"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "P8E80F9AEF21F6940"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            }
-          },
-          "mappings": []
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 6,
-        "x": 6,
-        "y": 19
-      },
-      "id": 4,
-      "options": {
-        "displayLabels": [
-          "percent"
-        ],
-        "legend": {
-          "displayMode": "list",
-          "placement": "right",
-          "showLegend": true
-        },
-        "pieType": "pie",
-        "reduceOptions": {
-          "calcs": [
-            "sum"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "P8E80F9AEF21F6940"
-          },
-          "editorMode": "builder",
-          "expr": "sum by(response_code) (count_over_time({container=\"consul-dataplane\", namespace=\"$namespace\"} | json | response_code != `0` | __error__=`` [$__range]))",
-          "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
-          "legendFormat": "{{response_code}}",
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "Response Code Distribution in \"$namespace\" namespace",
-      "type": "piechart"
     },
     {
       "datasource": {
@@ -854,8 +568,8 @@
       "gridPos": {
         "h": 6,
         "w": 6,
-        "x": 12,
-        "y": 19
+        "x": 0,
+        "y": 9
       },
       "id": 27,
       "maxDataPoints": 1,
@@ -895,7 +609,7 @@
           "refId": "A"
         }
       ],
-      "title": "Total bytes sent over [$__interval]",
+      "title": "Total bytes sent",
       "transformations": [],
       "type": "piechart"
     },
@@ -923,8 +637,8 @@
       "gridPos": {
         "h": 6,
         "w": 6,
-        "x": 0,
-        "y": 25
+        "x": 6,
+        "y": 9
       },
       "id": 3,
       "options": {
@@ -963,7 +677,7 @@
           "refId": "A"
         }
       ],
-      "title": "HTTP method in \"$namespace\" namespace",
+      "title": "HTTP method distribution",
       "type": "piechart"
     },
     {
@@ -990,8 +704,8 @@
       "gridPos": {
         "h": 6,
         "w": 6,
-        "x": 6,
-        "y": 25
+        "x": 12,
+        "y": 9
       },
       "id": 5,
       "maxDataPoints": 1,
@@ -1033,7 +747,460 @@
           "refId": "A"
         }
       ],
-      "title": "User agents in \"$namespace\" namespace",
+      "title": "User agent distribution",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 18,
+        "x": 0,
+        "y": 15
+      },
+      "id": 1,
+      "maxDataPoints": 1,
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": false
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "builder",
+          "expr": "{container=\"consul-dataplane\", namespace=\"$namespace\"} |= `` | json |~ `(?i)$searchable_pattern`",
+          "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Logs containing \"$searchable_pattern\" over [$__interval]",
+      "type": "logs"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "semi-dark-orange",
+                "value": null
+              }
+            ]
+          },
+          "unit": "decbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 9,
+        "x": 0,
+        "y": 22
+      },
+      "id": 21,
+      "maxDataPoints": 1,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.1.5",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "(bytes_over_time({namespace=~\"$namespace\", container=\"consul-dataplane\"} [$__interval]))",
+          "instant": true,
+          "legendFormat": "{{app}}",
+          "queryType": "range",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "Size of access logs by app over [$__interval]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "semi-dark-orange",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 9,
+        "x": 9,
+        "y": 22
+      },
+      "id": 23,
+      "maxDataPoints": 1,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.1.5",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "(count_over_time({namespace=\"$namespace\", container=\"consul-dataplane\"}[$__interval]))",
+          "instant": true,
+          "legendFormat": "{{app}}",
+          "queryType": "range",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "Count of access logs by app over [$__interval]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "description": "duration: The total duration in milliseconds of the request from the start time to the last byte out",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 30
+              },
+              {
+                "color": "red",
+                "value": 40
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 9,
+        "x": 0,
+        "y": 27
+      },
+      "id": 29,
+      "maxDataPoints": 1,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.1.5",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "editorMode": "builder",
+          "expr": "quantile_over_time(0.95, {namespace=\"$namespace\", container=\"consul-dataplane\"} | json | unwrap duration | __error__=`` [$__interval]) by (app)",
+          "hide": false,
+          "legendFormat": "{{app}}",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "50th percentile of duration over [$__interval]",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "description": "duration: The total duration in milliseconds of the request from the start time to the last byte out",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 30
+              },
+              {
+                "color": "red",
+                "value": 40
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 9,
+        "x": 9,
+        "y": 27
+      },
+      "id": 30,
+      "maxDataPoints": 1,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.1.5",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "quantile_over_time(0.99, {namespace=\"$namespace\", container=\"consul-dataplane\"} | json | unwrap duration | __error__=`` [$__interval]) by (app)",
+          "hide": false,
+          "legendFormat": "{{app}}",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "99th percentile of duration over [$__interval]",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "decimals": 0,
+          "links": [],
+          "mappings": [],
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 36
+      },
+      "id": 28,
+      "links": [],
+      "maxDataPoints": 1,
+      "options": {
+        "displayLabels": [
+          "value"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.3.6",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "builder",
+          "expr": "sum by(app) (count_over_time({container=\"consul-dataplane\", namespace=~\"$namespace\"} [$__interval]))",
+          "legendFormat": "{{pod}}",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Total logs by app over [$__interval]",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 36
+      },
+      "id": 19,
+      "maxDataPoints": 1,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": []
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.0.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "code",
+          "expr": "sum by(path) (count_over_time({container=\"consul-dataplane\", namespace=\"$namespace\"} !~ `.ico|.svg|.css|.png|.txt|.js|.xml` | json | path != `` | __error__=`` [$__range]))",
+          "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
+          "legendFormat": "{{user_agent}}",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Path distribution in \"$namespace\"",
       "type": "piechart"
     },
     {
@@ -1094,7 +1261,7 @@
         "h": 6,
         "w": 6,
         "x": 12,
-        "y": 25
+        "y": 36
       },
       "id": 17,
       "links": [],
@@ -1136,47 +1303,8 @@
           "refId": "A"
         }
       ],
-      "title": "Log stream sources in \"$namespace\" namespace",
+      "title": "Log stream source distribution",
       "type": "piechart"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "P8E80F9AEF21F6940"
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 18,
-        "x": 0,
-        "y": 31
-      },
-      "id": 33,
-      "maxDataPoints": 1,
-      "options": {
-        "dedupStrategy": "none",
-        "enableLogDetails": true,
-        "prettifyLogMessage": false,
-        "showCommonLabels": false,
-        "showLabels": false,
-        "showTime": true,
-        "sortOrder": "Descending",
-        "wrapLogMessage": false
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "P8E80F9AEF21F6940"
-          },
-          "editorMode": "builder",
-          "expr": "{container=\"consul-dataplane\", namespace=\"$namespace\"} |= `` | json |= `$searchable_pattern`",
-          "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "Logs containing \"$searchable_pattern\" over [$__interval]",
-      "type": "logs"
     }
   ],
   "refresh": "",
@@ -1272,8 +1400,8 @@
       {
         "current": {
           "selected": false,
-          "text": "404",
-          "value": "404"
+          "text": "",
+          "value": ""
         },
         "hide": 0,
         "label": "Search (case insensitive)",
@@ -1281,11 +1409,11 @@
         "options": [
           {
             "selected": true,
-            "text": "404",
-            "value": "404"
+            "text": "",
+            "value": ""
           }
         ],
-        "query": "404",
+        "query": "",
         "skipUrlSync": false,
         "type": "textbox"
       }
@@ -1297,8 +1425,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Access Logs: Errors",
-  "uid": "access-logs-errors",
+  "title": "Access Logs: Events & Errors",
+  "uid": "access-logs-events-and-errors",
   "version": 1,
   "weekStart": ""
 }
