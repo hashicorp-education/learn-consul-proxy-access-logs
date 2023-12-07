@@ -24,13 +24,12 @@ kubectl apply --filename config/proxy-defaults.yaml
 # Redeploy HashiCups with updated proxies
 kubectl rollout restart deployment --namespace default
 
-# Go to API gateway URL and explore HashiCups to generate traffic
+# Go to API gateway URL and explore HashiCups
 export CONSUL_APIGW_ADDR=http://$(kubectl get svc/api-gateway -o json | jq -r '.status.loadBalancer.ingress[0].hostname') && \
 echo $CONSUL_APIGW_ADDR
 
 # Go to Grafana URL and check out dashboards
-export GRAFANA_URL=http://$(kubectl get svc/grafana --namespace observability -o json | jq -r '.status.loadBalancer.ingress[0].hostname') && \
-echo $GRAFANA_URL
+export GRAFANA_ACCESS_LOGS_DASHBOARD=http://$(kubectl get svc/grafana --namespace observability -o json | jq -r '.status.loadBalancer.ingress[0].hostname')/d/access-logs-events-and-errors/ && echo $GRAFANA_ACCESS_LOGS_DASHBOARD
 
 # Check out Consul (optional)
 echo $CONSUL_HTTP_ADDR && echo $CONSUL_HTTP_TOKEN
