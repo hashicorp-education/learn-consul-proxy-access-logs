@@ -47,13 +47,13 @@ spec:
         app: public-api
       annotations:
         consul.hashicorp.com/connect-inject: "true"
-        consul.hashicorp.com/service-meta-version: "1"
-        consul.hashicorp.com/service-tags: "v1"
+        consul.hashicorp.com/service-meta-version: "2"
+        consul.hashicorp.com/service-tags: "v2"
     spec:
       serviceAccountName: public-api
       containers:
         - name: public-api
-          image: hashicorpdemoapp/public-api:v0.0.6
+          image: hashikrastin/public-api:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
@@ -64,6 +64,8 @@ spec:
               value: "http://product-api:9090"
             - name: PAYMENT_API_URI
               value: "http://payments:1800"
+            - name: ERROR_RATE
+              value: "100"
           resources:
             limits:
               cpu: 100m
