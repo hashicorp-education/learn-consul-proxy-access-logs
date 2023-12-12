@@ -47,8 +47,6 @@ spec:
         app: public-api
       annotations:
         consul.hashicorp.com/connect-inject: "true"
-        consul.hashicorp.com/service-meta-version: "2"
-        consul.hashicorp.com/service-tags: "v2"
     spec:
       serviceAccountName: public-api
       containers:

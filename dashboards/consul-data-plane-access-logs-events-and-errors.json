@@ -18,6 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 3,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -67,7 +68,6 @@
       },
       "id": 9,
       "links": [],
-      "maxDataPoints": 1,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -96,7 +96,7 @@
           "refId": "A"
         }
       ],
-      "title": "Total logs over [$__interval]",
+      "title": "Total logs",
       "type": "stat"
     },
     {
@@ -104,7 +104,7 @@
         "type": "loki",
         "uid": "P8E80F9AEF21F6940"
       },
-      "description": "Total Count of $searchable_pattern in the specified time range",
+      "description": "Total count of logs containing the search filter term in the specified time range",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -151,7 +151,6 @@
       },
       "id": 10,
       "links": [],
-      "maxDataPoints": 1,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -173,14 +172,14 @@
             "type": "loki",
             "uid": "P8E80F9AEF21F6940"
           },
-          "editorMode": "builder",
+          "editorMode": "code",
           "expr": "sum(count_over_time({container=\"consul-dataplane\", namespace=~\"$namespace\"} |~ `(?i)(?i)$searchable_pattern` [$__interval]))",
           "hide": false,
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Total logs containing \"$searchable_pattern\" over [$__interval]",
+      "title": "Total logs containing \"$searchable_pattern\"",
       "type": "stat"
     },
     {
@@ -188,6 +187,7 @@
         "type": "loki",
         "uid": "P8E80F9AEF21F6940"
       },
+      "description": "Percentage of logs containing the search filter term in the specified time range",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -262,7 +262,7 @@
           "refId": "A"
         }
       ],
-      "title": "Percentage of logs containing \"$searchable_pattern\" over  [$__interval]",
+      "title": "Percentage of logs containing \"$searchable_pattern\"",
       "type": "stat"
     },
     {
@@ -516,6 +516,45 @@
         "type": "loki",
         "uid": "P8E80F9AEF21F6940"
       },
+      "gridPos": {
+        "h": 7,
+        "w": 18,
+        "x": 0,
+        "y": 9
+      },
+      "id": 1,
+      "maxDataPoints": 1,
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": false
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "builder",
+          "expr": "{container=\"consul-dataplane\", namespace=\"$namespace\"} |= `` | json |~ `(?i)$searchable_pattern`",
+          "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Logs containing \"$searchable_pattern\" over [$__interval]",
+      "type": "logs"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -569,7 +608,7 @@
         "h": 6,
         "w": 6,
         "x": 0,
-        "y": 9
+        "y": 16
       },
       "id": 27,
       "maxDataPoints": 1,
@@ -638,7 +677,7 @@
         "h": 6,
         "w": 6,
         "x": 6,
-        "y": 9
+        "y": 16
       },
       "id": 3,
       "options": {
@@ -705,7 +744,7 @@
         "h": 6,
         "w": 6,
         "x": 12,
-        "y": 9
+        "y": 16
       },
       "id": 5,
       "maxDataPoints": 1,
@@ -755,45 +794,6 @@
         "type": "loki",
         "uid": "P8E80F9AEF21F6940"
       },
-      "gridPos": {
-        "h": 7,
-        "w": 18,
-        "x": 0,
-        "y": 15
-      },
-      "id": 1,
-      "maxDataPoints": 1,
-      "options": {
-        "dedupStrategy": "none",
-        "enableLogDetails": true,
-        "prettifyLogMessage": false,
-        "showCommonLabels": false,
-        "showLabels": false,
-        "showTime": true,
-        "sortOrder": "Descending",
-        "wrapLogMessage": false
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "P8E80F9AEF21F6940"
-          },
-          "editorMode": "builder",
-          "expr": "{container=\"consul-dataplane\", namespace=\"$namespace\"} |= `` | json |~ `(?i)$searchable_pattern`",
-          "key": "Q-aac7d4c8-664f-43c0-8064-9f737ce3e78e-0",
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "Logs containing \"$searchable_pattern\" over [$__interval]",
-      "type": "logs"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "P8E80F9AEF21F6940"
-      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -816,8 +816,8 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 5,
-        "w": 9,
+        "h": 4,
+        "w": 18,
         "x": 0,
         "y": 22
       },
@@ -861,73 +861,6 @@
         "type": "loki",
         "uid": "P8E80F9AEF21F6940"
       },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 0,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "semi-dark-orange",
-                "value": null
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 9,
-        "x": 9,
-        "y": 22
-      },
-      "id": 23,
-      "maxDataPoints": 1,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "sum"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
-      },
-      "pluginVersion": "10.1.5",
-      "targets": [
-        {
-          "datasource": {
-            "uid": "$datasource"
-          },
-          "editorMode": "code",
-          "expr": "(count_over_time({namespace=\"$namespace\", container=\"consul-dataplane\"}[$__interval]))",
-          "instant": true,
-          "legendFormat": "{{app}}",
-          "queryType": "range",
-          "range": false,
-          "refId": "A"
-        }
-      ],
-      "title": "Count of access logs by app over [$__interval]",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "P8E80F9AEF21F6940"
-      },
       "description": "duration: The total duration in milliseconds of the request from the start time to the last byte out",
       "fieldConfig": {
         "defaults": {
@@ -959,7 +892,7 @@
         "h": 9,
         "w": 9,
         "x": 0,
-        "y": 27
+        "y": 26
       },
       "id": 29,
       "maxDataPoints": 1,
@@ -1028,7 +961,7 @@
         "h": 9,
         "w": 9,
         "x": 9,
-        "y": 27
+        "y": 26
       },
       "id": 30,
       "maxDataPoints": 1,
@@ -1089,7 +1022,7 @@
         "h": 6,
         "w": 6,
         "x": 0,
-        "y": 36
+        "y": 35
       },
       "id": 28,
       "links": [],
@@ -1158,7 +1091,7 @@
         "h": 6,
         "w": 6,
         "x": 6,
-        "y": 36
+        "y": 35
       },
       "id": 19,
       "maxDataPoints": 1,
@@ -1261,7 +1194,7 @@
         "h": 6,
         "w": 6,
         "x": 12,
-        "y": 36
+        "y": 35
       },
       "id": 17,
       "links": [],
